@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
+{% block content %}
+    <h1>Add Link</h1>
+    <form method="POST" class="link-form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+{% endblock %}
+</html>

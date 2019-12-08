@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'crm/base.html' %}
+{% block content %}
+    <H2> Thanks for your interest!  Fill out below information and I will contact you soon.</H2>
+    <H3> Photographer's Information:</H3>
+
+
+<h1>Add Customer</h1>
+<form method="POST" class="customer-form">{% csrf_token %}
+   {{ form.as_p }}
+   <button type="submit" class="save btn btn-default">Save</button>
+</form>
+{% endblock %}
+
+</html>

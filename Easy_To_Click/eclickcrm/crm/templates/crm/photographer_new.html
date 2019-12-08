@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
+{% block content %}
+    <h1>Add Photographer</h1>
+    <form method="POST" class="photographer-form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+{% endblock %}
+</html>

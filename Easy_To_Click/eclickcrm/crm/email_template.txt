@@ -1,0 +1,9 @@
+Dear ${PERSON_NAME},
+
+This is to confirm your interest in an appointment with our photographer.
+We will be in touch via email within the next 48 hours.
+Thank you for choosing us to capture your memories!
+
+
+Yours Truly,
+Easy 2 Click Team

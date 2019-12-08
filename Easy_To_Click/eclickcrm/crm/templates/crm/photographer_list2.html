@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'crm/base.html' %}
+{% block content %}
+
+    <!--    <head>
+         <meta charset="UTF-8">
+         <title>Easy To Click Photography</title>
+         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+     </head>
+     <body>
+   <style>
+         body {
+           background-color: beige;
+         }
+     </style>
+     <div class="container">
+         <div class="row">
+             <div class="col-md-10 col-md-offset-1">
+                 <div class="panel panel-primary">
+                     <div class="panel-heading">Welcome!</div>
+                     <div class="panel-body">
+                         Easy To Click Schedule Pictures on Your time!.
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+     <div class="row">
+         <h2 style="padding-left: 15Px">Photographer Information</h2>
+     </div>
+     <div>
+         <table class="table table-striped table-bordered table-hover">
+            <thead>
+             <tr class="bg-info">
+                 <th>Photographer First Name</th>
+                 <th>Photographer Last Name</th>
+                 <th>Photographer Company</th>
+                 <th>Photographer Email</th>
+                 <th>Photographer Address</th>
+                 <th>Photographer City</th>
+                 <th>Photographer State</th>
+                 <th>Photographer ZipCode </th>
+                 <th>Photographer Phone Number </th>
+                 <th>About Photographer</th>
+             </tr>
+             </thead>
+             <tr>
+           {% for photographer in photographers %}
+             <tr>
+                 <td>{{ photographer.first_name }}</td>
+                 <td>{{ photographer.last_name }}</td>
+                 <td>{{ photographer.company }}</td>
+                 <td>{{ photographer.email }}</td>
+                 <td>{{ photographer.address }}</td>
+                 <td>{{ photographer.city }}</td>
+                 <td>{{ photographer.state }}</td>
+                 <td>{{ photographer.zipcode }}</td>
+                 <td>{{ photographer.phone_number }}</td>
+                 <td>{{photographer.description}}</td>
+             </tr>
+            <div class="row">
+             {% for object in object_list %}
+
+            <tr>
+                 <td>{{ object.first_name }}</td>
+                 <td>{{ object.last_name }}</td>
+                 <td>{{ object.company }}</td>
+                 <td>{{ object.email }}</td>
+                 <td>{{ object.address }}</td>
+                 <td>{{ object.city }}</td>
+                 <td>{{ object.state }}</td>
+                 <td>{{ object.zipcode }}</td>
+                 <td>{{ object.phone_number }}</td>
+                 <td>{{object.description}}</td>
+                 {% if user.is_authenticated %}
+                 <td><a href="{% url 'crm:photographer_edit' pk=object.pk %}" class="btn btn-warning">Edit</a> </td>
+                     <td><a href=""
+                        onclick="return confirm('Are you sure you want to delete?')"
+                        class="btn btn-danger">Delete</a>
+                     </td>
+                 {% endif %}
+                     <td>
+                       <a href="{% url 'crm:customer_new' %}" class="btn btn-primary">Book Sitting</a>
+                     </td>
+             </tr>
+             {% endfor %}
+            </div>
+            </tbody>
+         </table>
+     </div>
+     </body>-->
+</html>
+{% endblock %}
+
+
+
+ 
