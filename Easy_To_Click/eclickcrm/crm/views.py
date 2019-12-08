@@ -277,8 +277,8 @@ def email_add_photographer(request, pk):
     messages.info(photographer.pk, "photographer info received")
     # show confirmation message and redirect back to the same page
    # messages.info(request, "item added to cart")
-    return redirect(request, ('crm:customer_new'))
-#return redirect(reverse('sis:schedule_list'))
+    return redirect(reverse('crm:customer_new'))
+
 
 def comment_list(request):
     comment = Comment.objects.filter()
