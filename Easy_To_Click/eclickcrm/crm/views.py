@@ -274,7 +274,7 @@ def email_add_photographer(request, pk):
    #  # generate a reference code
    #  user_order.ref_code = generate_order_id()
    #  user_order.save()
-    messages.info(photographer.pk, "photographer info received")
+    print(photographer, "photographer info received")
     # show confirmation message and redirect back to the same page
    # messages.info(request, "item added to cart")
     return redirect(reverse('crm:customer_new'))
