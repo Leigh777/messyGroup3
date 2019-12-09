@@ -1,0 +1,13 @@
+${PERSON_NAME}
+${PERSON_EMAIL}
+
+Dear ${PHOTO_NAME},
+
+Great News! The above person has contacted them and would like a photo shoot!  Please contact them in the next 24 hours.
+Thank you for choosing us to help you with your bookings!
+
+
+Yours Truly,
+Easy 2 Click Team
+
+

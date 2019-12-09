@@ -20,17 +20,13 @@ now = timezone.now()
 def customer_new(request, pk):
     email_photographer = Photographer.objects.get(pk=pk)
     email_photographer.save()
-   # photographer = get_object_or_404(email_photographer)
     photo_full_name = email_photographer.first_name + " " + email_photographer.last_name
     if request.method == "POST":
         form = CustomerForm(request.POST)
         if form.is_valid():
             customer = form.save(commit=False)
             custName = customer.first_name + " " + customer.last_name
-            print("Customer name is " + custName)
-            print("Customer email is " + customer.email)
-            send_email(custName, customer.email)
-
+            send_email(custName, customer.email, photo_full_name, email_photographer.company, email_photographer.phone_number, email_photographer.email)
             customer.created_date = timezone.now()
             customer.updated_date = timezone.now()
             customer.save()
@@ -305,29 +301,27 @@ def read_template(filename):
 #     return Template(template_file_content)
 
 
-def send_email(customerName, customerEmail):
+def send_email(customername, customeremail, photo_full_name, photocompany, photophone, photoemail):
     message_template = read_template('email_template.txt')
-
     # add in the actual person name to the message template
-    message = message_template.substitute(PERSON_NAME=customerName, ) #customer_name.title())
+    message = message_template.substitute(PERSON_NAME = customername, PHOTO_NAME = photo_full_name, PHOTO_COMPANY=photocompany, PHOTO_PHONE=photophone, PHOTO_EMAIL=photoemail)
+    message_template2 = read_template('email_photographer_template.txt')
+    message2 = message_template2.substitute(PERSON_NAME = customername, PHOTO_NAME = photo_full_name, PERSON_EMAIL=customeremail)
 
-    # add in the actual person name to the message template
-    # message = message_template.substitute(PHOTO_NAME='GuhaAmin') #photographer_name.title())
-
-    print("About to send email")
-    # Param1 - Email subject
-    # Param2 - Email body
-    # Param3 - from email
-    # Param4 - to email (tuple or array)
     try:
         send_mail("Thank you for showing your interest with KLICK2EASY!",
-              message,
-              "isqa4900group3@gmail.com",
-              [customerEmail],
-                  fail_silently=False)
-        print("Email sent")
+              message, "isqa4900group3@gmail.com",
+              [customeremail], fail_silently=False)
+        message("Email sent")
     except Exception as e:
-        print(e)
+        print(e, "ERROR SENDING TO CUSTOMER")
+    try:
+        send_mail("Thank you for showing your interest with KLICK2EASY!",
+                  message2, "isqa4900group3@gmail.com",
+                  [photoemail], fail_silently=False)
+        message("Email sent")
+    except Exception as e:
+        print(e, "ERROR SENDING TO CLIENT")
 
 
 
