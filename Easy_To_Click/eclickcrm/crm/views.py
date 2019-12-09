@@ -17,15 +17,15 @@ import os
 now = timezone.now()
 
 
-def customer_new(request):
-  #  photographer = get_object_or_404(Photographer, pk=pk)
+def customer_new(request, pk):
+    email_photographer = Photographer.objects.get(pk=pk)
+    email_photographer.save()
+   # photographer = get_object_or_404(email_photographer)
+    photo_full_name = email_photographer.first_name + " " + email_photographer.last_name
     if request.method == "POST":
-    #    form1 = CustomerForm(request.POST)
         form = CustomerForm(request.POST)
-    #    form2 = PhotographerForm(request.POST)
         if form.is_valid():
             customer = form.save(commit=False)
-
             custName = customer.first_name + " " + customer.last_name
             print("Customer name is " + custName)
             print("Customer email is " + customer.email)
@@ -247,37 +247,14 @@ def customer_list(request):
 
 def photographer_list(request):
     photographer = Photographer.objects.filter()
-#  object_list = Photographer.objects.all()
-#  filtered_photographer = Photographer.objects.filter(created_date__lte=timezone.now())
-#  current_order_photographer = []
-#  if filtered_photographer.exists():
-#      user_photographer = filtered_photographer[0]
-
-#  context = {
-#      'object_list': object_list,
-#      'user_photographer': user_photographer
-#  }
-#  print (context)
     return render(request, 'crm/photographer_list.html', {'photographers': photographer})
-#    return render(request, "crm/photographer_list.html", context)
 
 
-def email_add_photographer(request, pk):
-   # photographer = get_object_or_404(Photographer, pk=pk)
-   # user_profile = get_object_or_404(Profile, user=request.user)
-    photographer = Photographer.objects.filter(pk= pk)
-   # order_item, status = OrderItem.objects.get_or_create(schedule=schedule)
-    # create order associated with the user
-   # user_order, status = Order.objects.get_or_create(owner=user_profile, is_ordered=False)
-   # user_order.items.add(order_item)
-   # if status:
-   #  # generate a reference code
-   #  user_order.ref_code = generate_order_id()
-   #  user_order.save()
-    print(photographer, "photographer info received")
-    # show confirmation message and redirect back to the same page
-   # messages.info(request, "item added to cart")
-    return redirect(reverse('crm:customer_new'))
+#def email_add_photographer(request, pk):
+#   email_photographer = Photographer.objects.get(pk = pk)
+#   email_photographer.save()
+#   print (email_photographer)
+#   return redirect(reverse('crm:customer_new'))
 
 
 def comment_list(request):
@@ -332,7 +309,7 @@ def send_email(customerName, customerEmail):
     message_template = read_template('email_template.txt')
 
     # add in the actual person name to the message template
-    message = message_template.substitute(PERSON_NAME=customerName) #customer_name.title())
+    message = message_template.substitute(PERSON_NAME=customerName, ) #customer_name.title())
 
     # add in the actual person name to the message template
     # message = message_template.substitute(PHOTO_NAME='GuhaAmin') #photographer_name.title())
@@ -351,7 +328,7 @@ def send_email(customerName, customerEmail):
         print("Email sent")
     except Exception as e:
         print(e)
-    print("Outside try catch block.")
+
 
 
 def read_template(filename):
@@ -370,15 +347,7 @@ def read_template(filename):
     # template_file_content.replace('PHOTO_NAME', 'Guha Amin')
     return Template(template_file_content)
 
-def success(request, **kwargs):
+def success(request):
     # a view signifying the transcation was successful
     return render(request, 'crm/capture_successful.html', {})
-
-def my_profile(request):
-    my_user_profile = Profile.objects.filter(user=request.user).first()
-    my_photographer = Photographer.objects.filter(is_chosen=True, owner=my_user_profile)
-    context = {
-        'my_photograper':my_photographer
-    }
-    return render(request, "profile.html", context)
 
