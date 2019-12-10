@@ -65,8 +65,7 @@
                      </td>
                  {% endif %}
                      <td>
-            <!--           <a href="{% url 'crm:customer_new' %}" class="btn btn-primary">Book Sitting</a>-->
-                         <a href="{% url 'crm:email_add_photographer' pk=photographer.pk %}" class="btn btn-warning">Book Sitting</a>
+                     <a href="{% url 'crm:customer_new' pk=photographer.pk %}" class="btn btn-primary">Book Sitting</a>
                      </td>
              </tr>
              {% endfor %}

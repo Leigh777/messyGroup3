@@ -20,13 +20,13 @@ now = timezone.now()
 def customer_new(request, pk):
     email_photographer = Photographer.objects.get(pk=pk)
     email_photographer.save()
-    photo_full_name = email_photographer.first_name + " " + email_photographer.last_name
+    photo_full_name = str(email_photographer.first_name + " " + email_photographer.last_name)
     if request.method == "POST":
         form = CustomerForm(request.POST)
         if form.is_valid():
             customer = form.save(commit=False)
-            custName = customer.first_name + " " + customer.last_name
-            send_email(custName, customer.email, photo_full_name, email_photographer.company, email_photographer.phone_number, email_photographer.email)
+            custName = str(customer.first_name + " " + customer.last_name)
+            send_email(custName, str(customer.email), photo_full_name, str(email_photographer.company), str(email_photographer.phone_number), str(email_photographer.email))
             customer.created_date = timezone.now()
             customer.updated_date = timezone.now()
             customer.save()
@@ -246,16 +246,10 @@ def photographer_list(request):
     return render(request, 'crm/photographer_list.html', {'photographers': photographer})
 
 
-#def email_add_photographer(request, pk):
-#   email_photographer = Photographer.objects.get(pk = pk)
-#   email_photographer.save()
-#   print (email_photographer)
-#   return redirect(reverse('crm:customer_new'))
-
-
 def comment_list(request):
     comment = Comment.objects.filter()
     return render(request, 'crm/comment_list.html', {'comments': comment})
+
 
 def link_list(request):
     link = SocialLink.objects.filter()
@@ -290,38 +284,28 @@ def read_template(filename):
     return Template(template_file_content)
 
 
-# def read_template(filename):
-#     """
-#     Returns a Template object comprising the contents of the
-#     file specified by filename.
-#     """
-#
-#     with open(filename, 'r', encoding='utf-8') as template_file:
-#         template_file_content = template_file.read()
-#     return Template(template_file_content)
-
-
 def send_email(customername, customeremail, photo_full_name, photocompany, photophone, photoemail):
     message_template = read_template('email_template.txt')
     # add in the actual person name to the message template
-    message = message_template.substitute(PERSON_NAME = customername, PHOTO_NAME = photo_full_name, PHOTO_COMPANY=photocompany, PHOTO_PHONE=photophone, PHOTO_EMAIL=photoemail)
+    message = message_template.substitute(PHOTO_NAME = photo_full_name, PHOTO_COMPANY=photocompany, PHOTO_PHONE=photophone, PHOTO_EMAIL=photoemail, PERSON_NAME = customername)
     message_template2 = read_template('email_photographer_template.txt')
-    message2 = message_template2.substitute(PERSON_NAME = customername, PHOTO_NAME = photo_full_name, PERSON_EMAIL=customeremail)
+    message2 = message_template2.substitute(PERSON_NAME = customername, PERSON_EMAIL=customeremail, PHOTO_NAME = photo_full_name)
 
     try:
         send_mail("Thank you for showing your interest with KLICK2EASY!",
               message, "isqa4900group3@gmail.com",
               [customeremail], fail_silently=False)
-        message("Email sent")
+        print("Email sent to customer")
     except Exception as e:
         print(e, "ERROR SENDING TO CUSTOMER")
     try:
         send_mail("Thank you for showing your interest with KLICK2EASY!",
                   message2, "isqa4900group3@gmail.com",
                   [photoemail], fail_silently=False)
-        message("Email sent")
+        print("Email sent to client")
     except Exception as e:
         print(e, "ERROR SENDING TO CLIENT")
+
 
 
 
@@ -336,9 +320,6 @@ def read_template(filename):
     with open(file_path, 'r', encoding='utf-8') as template_file:
         template_file_content = template_file.read()
 
-    # return template_file_content
-    # template_file_content.replace('PERSON_NAME', 'Rashmik')
-    # template_file_content.replace('PHOTO_NAME', 'Guha Amin')
     return Template(template_file_content)
 
 def success(request):

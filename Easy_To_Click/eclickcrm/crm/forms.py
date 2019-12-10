@@ -1,5 +1,5 @@
 from django import forms
-from .models import Customer, Photographer, Comment, Payment, Photo, SocialLink
+from .models import Customer, Photographer, Comment, Payment, Photo, SocialLink, Post
 
 
 class CustomerForm(forms.ModelForm):
@@ -47,3 +47,16 @@ class UserRegistrationForm(forms.ModelForm):
                                widget=forms.PasswordInput)
     password2 = forms.CharField(label='Repeat password',
                                 widget=forms.PasswordInput)
+
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ('title', 'text',)
+
+
+class EmailPostForm(forms.Form):
+    name = forms.CharField(max_length=30)
+    email = forms.EmailField()
+    to = forms.EmailField()
+    comments = forms.CharField(required=False, widget=forms.Textarea)
